@@ -18,20 +18,20 @@ pigeon_data = {
     "City Hall" => ["Andrew"]
   }
 }
+
+# 1) If attribute array exists, shovel in
+# 2) Otherwise, create array and then shovel in
+
+# {"Theo" = {:color => [:purple]}}
+
 def nyc_pigeon_organizer(data)
   list = {}
-  data.each do |attribute, sub_attributes|
-    sub_attributes.each do |sub_attribute, names|
-      names.each do |name|
-        if list.has_key?(name)
-          if list[name].has_key?(attribute)
-            list[name][attribute] << sub_attribute.to_s
-          else
-            list[name][attribute] = [sub_attribute.to_s]
-          end
-        else
-        list[name] = {attribute => [sub_attribute.to_s]}
-        end
+  data.each do |attribute, sub_attributes_hash|
+    sub_attributes_hash.each do |sub_attribute, names_array|
+      names_array.each do |name|
+        list[name] ||= {}
+        list[name][attribute] ||= []
+        list[name][attribute] << sub_attribute.to_s
       end
     end
   end
